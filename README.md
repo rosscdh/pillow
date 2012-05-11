@@ -9,11 +9,12 @@ Pillow is a php implementation of the fantastic python class slumber (https://gi
 Oauth2 Example - Calling standard Oauth2 interface
  
     $api = new Api\Pillow\Pillow('http://localhost/');
-    $access_token = $api->v1OauthAccess_token()->post(array(
-    'client_id'          => '<client_code>',
-    'client_secret'      => '<client_secret>',
-    'scope'              => 'none',
-    ));
+    $access_token = $api->v1OauthAccess_token()
+                        ->post(array(
+                                'client_id'          => '<client_code>',
+                                'client_secret'      => '<client_secret>',
+                                'scope'              => 'none',
+                        ));
 
 **Please Note** 
 
@@ -28,11 +29,13 @@ This in turn, will then call
 Pillow converts to lowercase and **always** appends **/** to the url
 
     ->post(array('key'=>'value'))
-
-->put(array('key'=>'value')) **coming soon**
-->delete(array('key'=>'value')) **coming soon**
-
     ->get(array('key'=>'value'))
+
+1. ->put(array('key'=>'value')) **coming soon**
+2. ->delete(array('key'=>'value')) **coming soon**
+
+
+
 
 #### Questions, Complaints and Beer
 sendrossemail+pillow[]gmail dot com
