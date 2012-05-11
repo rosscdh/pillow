@@ -208,7 +208,7 @@ class Pillow{
         //. curl wtf?
         curl_setopt($curl, CURLOPT_FRESH_CONNECT, false);
         //The "User-Agent" header to be used in a HTTP request
-        curl_setopt($curl, CURLOPT_USERAGENT, "Symfony2SedoApi/0.0.1");
+        curl_setopt($curl, CURLOPT_USERAGENT, "Pillow/0.0.1");
 
         if (!$response = curl_exec($curl))
         {
