@@ -276,7 +276,7 @@ class Pillow{
     }
 
     public function get(Array $arguments=null, $as='json') {
-        $this->$requestType = 'GET';
+        $this->requestType = 'GET';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             $this->query_string = http_build_query($arguments[0]);
@@ -285,7 +285,7 @@ class Pillow{
     }
 
     public function post(Array $arguments=null, $as='json') {
-        $this->$requestType = 'POST';
+        $this->requestType = 'POST';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             foreach ($arguments as $k => $v) {
@@ -297,7 +297,7 @@ class Pillow{
     }
 
     public function put(Array $arguments=null, $as='json') {
-        $this->$requestType = 'PUT';
+        $this->requestType = 'PUT';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             foreach ($arguments as $k => $v) {
@@ -309,7 +309,7 @@ class Pillow{
     }
 
     public function patch(Array $arguments=null, $as='json') {
-        $this->$requestType = 'PATCH';
+        $this->requestType = 'PATCH';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             foreach ($arguments as $k => $v) {
@@ -321,7 +321,7 @@ class Pillow{
     }
 
     public function delete(Array $arguments=null, $as='json') {
-        $this->$requestType = 'DELETE';
+        $this->requestType = 'DELETE';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             foreach ($arguments as $k => $v) {
