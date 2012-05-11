@@ -1,13 +1,28 @@
 <?php
-
+namespace Api\Pillow;
 /**
  * Magic call Api interface method
  * uses call to magically call remote api methods
- *
+ * 
+ * Oauth2 Example - Calling standard Oauth2 interface
+ * 
+ *         $api = new Api\Pillow\Pillow('http://localhost/');
+ * 
+ *         $access_token = $api->v1OauthAccess_token()->post(array(
+ *             'client_id'          => '<client_code>',
+ *             'client_secret'      => '<client_secret>',
+ *             'scope'              => 'none',
+ *         ));
+ * 
+ *      Please Note the $api->v1OauthAccess_token() <-- this is your url from the initializing host
+ *      http://localhost/v1/oauth/access_token/ <-- Pillow converts to lowercase and *always* appends / to the url
+ * 
+ * 
  * @package default
  * @author Ross Crawford-d'Heureuse
+ * @email sendrossemail+pillow@gmail.com
  */
-class Sleeper{
+class Pillow{
     
     private 
         $api_url,               // injected url to be called (environment specific)
