@@ -25,6 +25,7 @@ namespace Api\Pillow;
 class Pillow{
     
     private 
+        $requestType = null,
         $api_url,               // injected url to be called (environment specific)
         $api_method,            // remote method to be called http://api_url/methodName?query=
         $query_string = null,           // query string to be passed in
@@ -101,6 +102,7 @@ class Pillow{
      * @param string $value 
      * @return void
      * @author Ross Crawford-d'Heureuse
+     * @TODO this is really not a necessary function any more.. 
      */
     public function setPostParam($key, $value)
     {
@@ -165,7 +167,6 @@ class Pillow{
 
         $curl = curl_init($request_url);
 
-
         if ($post = $this->getPost())
         {
             //Do a regular HTTP POST? (yes)
@@ -190,7 +191,14 @@ class Pillow{
         curl_setopt($curl, CURLOPT_HEADER,  false);
         //Some servers (like Lighttpd) will not process the curl request without this header and will return error code 417 instead. 
         //Apache does not need it, but it is safe to use it there as well.
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Expect:"));
+        if (!is_null($this->requestType) && in_array($this->requestType, array('GET','POST','PUT','DELETE','PATCH'))) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                                                    "Expect:", 
+                                                    sprintf('X-HTTP-Method-Override: %s', $this->requestType)
+            ));
+        } else {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array("Expect:"));
+        }
         //register a callback function which will process the headers
         //this assumes your code is into a class method, and uses $this->readHeader as the callback //function
         #curl_setopt($curl, CURLOPT_HEADERFUNCTION, array(&$this,'logCurlHeaders'));
@@ -268,6 +276,7 @@ class Pillow{
     }
 
     public function get(Array $arguments=null, $as='json') {
+        $this->$requestType = 'GET';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             $this->query_string = http_build_query($arguments[0]);
@@ -276,6 +285,43 @@ class Pillow{
     }
 
     public function post(Array $arguments=null, $as='json') {
+        $this->$requestType = 'POST';
+        if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
+        {
+            foreach ($arguments as $k => $v) {
+                $this->setPostParam($k, $v);
+            }
+        }
+
+        return $this->fetchApiQueryResponse($as);
+    }
+
+    public function put(Array $arguments=null, $as='json') {
+        $this->$requestType = 'PUT';
+        if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
+        {
+            foreach ($arguments as $k => $v) {
+                $this->setPostParam($k, $v);
+            }
+        }
+
+        return $this->fetchApiQueryResponse($as);
+    }
+
+    public function patch(Array $arguments=null, $as='json') {
+        $this->$requestType = 'PATCH';
+        if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
+        {
+            foreach ($arguments as $k => $v) {
+                $this->setPostParam($k, $v);
+            }
+        }
+
+        return $this->fetchApiQueryResponse($as);
+    }
+
+    public function delete(Array $arguments=null, $as='json') {
+        $this->$requestType = 'DELETE';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
             foreach ($arguments as $k => $v) {
