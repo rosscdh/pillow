@@ -162,7 +162,6 @@ class Pillow{
     private function getCurl()
     {
         $request_url = $this->request_url = $this->getApiQueryUrl();
-echo $request_url;
         $this->log(sprintf('Curl Request to: %s', urldecode($request_url)));
 
         $curl = curl_init($request_url);
@@ -276,7 +275,6 @@ echo $request_url;
     }
 
     public function get(Array $arguments=null, $as='json') {
-        var_dump($arguments);
         $this->requestType = 'GET';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
