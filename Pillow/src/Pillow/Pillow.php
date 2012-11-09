@@ -86,7 +86,7 @@ class Pillow{
         // normalise into expected query
         if ($name == 'SimpleCall')
         {
-            $this->api_method = null;
+            $this->api_method = $arguments[0];
         }else{
             //$api_method = lcfirst(self::camelize($name)); // from Monkey__method_Call into monkeyMethodCall
             $api_method = $name;
@@ -162,7 +162,7 @@ class Pillow{
     private function getCurl()
     {
         $request_url = $this->request_url = $this->getApiQueryUrl();
-
+echo $request_url;
         $this->log(sprintf('Curl Request to: %s', urldecode($request_url)));
 
         $curl = curl_init($request_url);
@@ -276,10 +276,11 @@ class Pillow{
     }
 
     public function get(Array $arguments=null, $as='json') {
+        var_dump($arguments);
         $this->requestType = 'GET';
         if (isset($arguments) && is_array($arguments) && count($arguments) > 0)
         {
-            $this->query_string = http_build_query($arguments[0]);
+            $this->query_string = http_build_query($arguments);
         }
         return $this->fetchApiQueryResponse($as);
     }
