@@ -1,5 +1,5 @@
 <?php
-namespace Api\Pillow;
+namespace Pillow;
 /**
  * Magic call Api interface method
  * uses call to magically call remote api methods
